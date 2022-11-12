@@ -11,6 +11,10 @@ def cityscapes_classes():
         'bicycle'
     ]
 
+def lungsegmentation_classes():
+    """Lung segmentation class names for use."""
+    return ['lung', 'not lung']
+
 
 def ade_classes():
     """ADE20K class names for external use."""
