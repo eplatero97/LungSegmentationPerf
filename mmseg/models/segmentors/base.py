@@ -264,7 +264,7 @@ class BaseSegmentor(BaseModule, metaclass=ABCMeta):
             else:
                 palette = self.PALETTE
         palette = np.array(palette)
-        assert palette.shape[0] == len(self.CLASSES)
+        assert palette.shape[0] == len(self.CLASSES), "%d != %d" % (palette.shape[0], len(self.CLASSES))
         assert palette.shape[1] == 3
         assert len(palette.shape) == 2
         assert 0 < opacity <= 1.0
