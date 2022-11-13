@@ -2,12 +2,23 @@
 import os
 import glob
 import shutil
+import argparse
 from sklearn.model_selection import train_test_split
+
+parser = argparse.ArgumentParser()
+# Add an argument
+parser.add_argument('--imgpath', type=str, required=True)
+parser.add_argument('--annpath', type=str, required=True)
+# Parse the argument
+args = parser.parse_args()
+# Print "Hello" + the user input argument
+print('Hello,', args.imgpath, args.annpath)
 
 annot_path = 'data/selected/masks/'
 image_path = 'data/selected/CXR_png/'
 
-shutil.copytree('data/original', 'data/selected')
+shutil.copytree(args.annpath, 'data/selected/masks')
+shutil.copytree(args.imgpath, 'data/selected/CXR_png')
 
 annot_files = os.listdir(annot_path)
 annot_files.sort()
@@ -25,21 +36,20 @@ for img in image_files:
     if img not in annot_files:
         os.remove(image_path+img)
 
-train_destination_path = 'data/processed/train/CXR_png/'
-val_destination_path = 'data/processed/val/CXR_png/'
-test_destination_path = 'data/processed/test/CXR_png/'
-train_mask_path = 'data/processed/train/masks/'
-val_mask_path = 'data/processed/val/masks/'
-test_mask_path = 'data/processed/test/masks/'
+train_destination_path = 'data/processed/img_dir/train/'
+val_destination_path = 'data/processed/img_dir/val/'
+test_destination_path = 'data/processed/img_dir/test/'
+train_mask_path = 'data/processed/ann_dir/train/'
+val_mask_path = 'data/processed/ann_dir/val/'
+test_mask_path = 'data/processed/ann_dir/test/'
 
 os.mkdir('data/processed')
-os.mkdir('data/processed/train')
+os.mkdir('data/processed/img_dir')
+os.mkdir('data/processed/ann_dir')
 os.mkdir(train_destination_path)
 os.mkdir(train_mask_path)
-os.mkdir('data/processed/val')
 os.mkdir(val_destination_path)
 os.mkdir(val_mask_path)
-os.mkdir('data/processed/test')
 os.mkdir(test_destination_path)
 os.mkdir(test_mask_path)
 
