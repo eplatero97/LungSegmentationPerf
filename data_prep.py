@@ -7,18 +7,21 @@ from sklearn.model_selection import train_test_split
 
 parser = argparse.ArgumentParser()
 # Add an argument
-parser.add_argument('--imgpath', type=str, required=True)
-parser.add_argument('--annpath', type=str, required=True)
+parser.add_argument('--inputpath', type=str, required=True)
+parser.add_argument('--outputpath', default='data/lungsegmentation', type=str)
 # Parse the argument
 args = parser.parse_args()
 # Print "Hello" + the user input argument
-print('Hello,', args.imgpath, args.annpath)
-
+print('Input path:', args.inputpath, 'Output path:', args.outputpath)
+if args.outputpath[-1] == '/':
+    args.outputpath = args.outputpath[:-1]
 annot_path = 'data/selected/masks/'
 image_path = 'data/selected/CXR_png/'
 
-shutil.copytree(args.annpath, 'data/selected/masks')
-shutil.copytree(args.imgpath, 'data/selected/CXR_png')
+if os.path.exists('data/selected/'):
+    shutil.rmtree('data/selected/')
+shutil.copytree(args.inputpath+'/masks', 'data/selected/masks')
+shutil.copytree(args.inputpath+'/CXR_png', 'data/selected/CXR_png')
 
 annot_files = os.listdir(annot_path)
 annot_files.sort()
@@ -36,16 +39,18 @@ for img in image_files:
     if img not in annot_files:
         os.remove(image_path+img)
 
-train_destination_path = 'data/processed/img_dir/train/'
-val_destination_path = 'data/processed/img_dir/val/'
-test_destination_path = 'data/processed/img_dir/test/'
-train_mask_path = 'data/processed/ann_dir/train/'
-val_mask_path = 'data/processed/ann_dir/val/'
-test_mask_path = 'data/processed/ann_dir/test/'
+train_destination_path = args.outputpath+'/img_dir/train/'
+val_destination_path = args.outputpath+'/img_dir/val/'
+test_destination_path = args.outputpath+'/img_dir/test/'
+train_mask_path = args.outputpath+'/ann_dir/train/'
+val_mask_path = args.outputpath+'/ann_dir/val/'
+test_mask_path = args.outputpath+'/ann_dir/test/'
 
-os.mkdir('data/processed')
-os.mkdir('data/processed/img_dir')
-os.mkdir('data/processed/ann_dir')
+if os.path.exists(args.outputpath):
+    shutil.rmtree(args.outputpath)
+os.mkdir(args.outputpath)
+os.mkdir(args.outputpath+'/img_dir')
+os.mkdir(args.outputpath+'/ann_dir')
 os.mkdir(train_destination_path)
 os.mkdir(train_mask_path)
 os.mkdir(val_destination_path)
@@ -59,9 +64,9 @@ data = [i for i in range(704)]
 
 X_train, X_test, _, _ = train_test_split(data, data, test_size=0.2)
 X_test, X_val, _, _ = train_test_split(X_test, X_test, test_size=0.5)
-print(len(X_train))
-print(len(X_test))
-print(len(X_val))
+print('Total training items:', len(X_train))
+print('Total test items:', len(X_test))
+print('Total val items:', len(X_val))
 X_train, X_val, X_test = set(X_train), set(X_val), set(X_test)
 
 image_files = os.listdir(image_path)

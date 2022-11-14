@@ -41,7 +41,7 @@ model = dict(
     train_cfg=dict(),
     test_cfg=dict(mode='whole'))
 dataset_type = 'LungSegmentationDataset'
-data_root = 'lung-segmentation/processed/'
+data_root = 'data/lungsegmentation/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (512, 1024)
@@ -84,7 +84,7 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type='LungSegmentationDataset',
-        data_root='lung-segmentation/processed/',
+        data_root='data/lungsegmentation/',
         img_dir='img_dir/train',
         ann_dir='ann_dir/train',
         pipeline=[
@@ -106,7 +106,7 @@ data = dict(
         ]),
     val=dict(
         type='LungSegmentationDataset',
-        data_root='lung-segmentation/processed/',
+        data_root='data/lungsegmentation/',
         img_dir='img_dir/val',
         ann_dir='ann_dir/val',
         pipeline=[
@@ -129,7 +129,7 @@ data = dict(
         ]),
     test=dict(
         type='LungSegmentationDataset',
-        data_root='lung-segmentation/processed/',
+        data_root='data/lungsegmentation/',
         img_dir='img_dir/test',
         ann_dir='ann_dir/test',
         pipeline=[
