@@ -1,27 +1,30 @@
 # Import libraries
 import os
+import os.path as osp
 import glob
 import shutil
-import argparse
+from jsonargparse import ArgumentParser, ActionConfigFile
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 
-parser = argparse.ArgumentParser()
+parser = ArgumentParser()
 # Add an argument
 parser.add_argument('--inputpath', type=str, required=True)
 parser.add_argument('--outputpath', default='data/lungsegmentation', type=str)
+parser.add_argument("--config", action = ActionConfigFile)
 # Parse the argument
 args = parser.parse_args()
 # Print "Hello" + the user input argument
 print('Input path:', args.inputpath, 'Output path:', args.outputpath)
 if args.outputpath[-1] == '/':
     args.outputpath = args.outputpath[:-1]
-annot_path = 'data/selected/masks/'
-image_path = 'data/selected/CXR_png/'
+annot_path = 'data/lungsegmentation/masks/'
+image_path = 'data/lungsegmentation/CXR_png/'
 
-if os.path.exists('data/selected/'):
-    shutil.rmtree('data/selected/')
-shutil.copytree(args.inputpath+'/masks', 'data/selected/masks')
-shutil.copytree(args.inputpath+'/CXR_png', 'data/selected/CXR_png')
+if os.path.exists('data/lungsegmentation/'):
+    shutil.rmtree('data/lungsegmentation/')
+shutil.copytree(osp.join(args.inputpath,'masks'), 'data/lungsegmentation/masks')
+shutil.copytree(osp.join(args.inputpath,'CXR_png'), 'data/lungsegmentation/CXR_png')
 
 annot_files = os.listdir(annot_path)
 annot_files.sort()
@@ -39,18 +42,18 @@ for img in image_files:
     if img not in annot_files:
         os.remove(image_path+img)
 
-train_destination_path = args.outputpath+'/img_dir/train/'
-val_destination_path = args.outputpath+'/img_dir/val/'
-test_destination_path = args.outputpath+'/img_dir/test/'
-train_mask_path = args.outputpath+'/ann_dir/train/'
-val_mask_path = args.outputpath+'/ann_dir/val/'
-test_mask_path = args.outputpath+'/ann_dir/test/'
+train_destination_path = osp.join(args.outputpath,'img_dir/train/')
+val_destination_path = osp.join(args.outputpath,'img_dir/val/')
+test_destination_path = osp.join(args.outputpath,'img_dir/test/')
+train_mask_path = osp.join(args.outputpath,'ann_dir/train/')
+val_mask_path = osp.join(args.outputpath,'ann_dir/val/')
+test_mask_path = osp.join(args.outputpath,'ann_dir/test/')
 
-if os.path.exists(args.outputpath):
-    shutil.rmtree(args.outputpath)
-os.mkdir(args.outputpath)
-os.mkdir(args.outputpath+'/img_dir')
-os.mkdir(args.outputpath+'/ann_dir')
+#if os.path.exists(args.outputpath):
+#    shutil.rmtree(args.outputpath)
+os.mkdir(args.outputpath) if not osp.exists(args.outputpath) else ''
+os.mkdir(osp.join(args.outputpath,'img_dir')) 
+os.mkdir(osp.join(args.outputpath,'ann_dir'))
 os.mkdir(train_destination_path)
 os.mkdir(train_mask_path)
 os.mkdir(val_destination_path)
@@ -73,7 +76,8 @@ image_files = os.listdir(image_path)
 image_files.sort()
 annot_files = os.listdir(annot_path)
 annot_files.sort()
-for i in range(num_data):
+print(f"Start copying files to destination {args.outputpath}")
+for i in tqdm(range(num_data)):
     if i in X_train:
         shutil.copyfile(image_path+image_files[i], train_destination_path+image_files[i])
         shutil.copyfile(annot_path+annot_files[i], train_mask_path+annot_files[i])
