@@ -9,7 +9,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('img', help='Image file')
     parser.add_argument('config', help='Config file')
-    parser.add_argument('checkpoint', help='Checkpoint file')
+    parser.add_argument('--checkpoint', required=False, help='Checkpoint file')
     parser.add_argument('--out-file', default=None, help='Path to output file')
     parser.add_argument(
         '--device', default='cuda:0', help='Device used for inference')
@@ -26,6 +26,9 @@ def main():
 
     # build the model from a config file and a checkpoint file
     model = init_segmentor(args.config, args.checkpoint, device=args.device)
+    if args.checkpoint is None:
+        model.CLASSES = ('lung', 'not lung')
+        model.PALETTE = [[255, 255, 255], [0, 0, 0]]
     # test a single image
     result = inference_segmentor(model, args.img)
     # show the results

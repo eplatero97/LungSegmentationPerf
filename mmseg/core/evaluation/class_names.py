@@ -263,6 +263,8 @@ def isaid_palette():
             [0, 0, 191], [0, 0, 255], [0, 191, 127], [0, 127, 191],
             [0, 127, 255], [0, 100, 155]]
 
+def lungsegmentation_palette():
+    return [[255,255,255], [0,0,0]]
 
 def stare_palette():
     """STARE palette for external use."""
@@ -282,7 +284,8 @@ dataset_aliases = {
         'coco_stuff164k'
     ],
     'isaid': ['isaid', 'iSAID'],
-    'stare': ['stare', 'STARE']
+    'stare': ['stare', 'STARE'],
+    'lungsegmentation': ['lungsegmentation']
 }
 
 
