@@ -1,0 +1,90 @@
+{
+    "os": "Linux-5.15.0-52-generic-x86_64-with-glibc2.17",
+    "python": "3.8.13",
+    "heartbeatAt": "2022-11-19T22:10:31.476988",
+    "startedAt": "2022-11-19T22:10:30.957014",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--local_rank=0",
+        "configs/fcn/fcn_r18b-d8_512x1024_20k_chestxray.py",
+        "--launcher",
+        "pytorch"
+    ],
+    "state": "running",
+    "program": "./tools/train.py",
+    "codePath": "tools/train.py",
+    "git": {
+        "remote": "git@github.com:eplatero97/LungSegmentationPerf.git",
+        "commit": "1f01cf7fb5b28edc189202afd8134bd56ce4e12d"
+    },
+    "email": "erick7451@gmail.com",
+    "root": "/media/erick/0123-4567/Github/mmlab/mmsegmentation/mmsegmentation",
+    "host": "erick-Inspiron-7580",
+    "username": "erick",
+    "executable": "/home/erick/miniconda3/envs/open-mmseg/bin/python",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2.457125,
+        "min": 400.0,
+        "max": 3900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2.677,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1.969,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1.8,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 2.858,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1.885,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1.809,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 3.001,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1.8,
+            "min": 400.0,
+            "max": 3900.0
+        }
+    ],
+    "disk": {
+        "total": 233.17998886108398,
+        "used": 77.3527946472168
+    },
+    "gpu": "NVIDIA GeForce MX250",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce MX250",
+            "memory_total": 2099904512
+        }
+    ],
+    "memory": {
+        "total": 7.484611511230469
+    }
+}

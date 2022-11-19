@@ -17,7 +17,7 @@ class LungSegmentationDataset(CustomDataset):
 
     def __init__(self, **kwargs):
         super(LungSegmentationDataset, self).__init__(
-            img_suffix='.jpg',
+            img_suffix='.png',
             seg_map_suffix='.png',
             reduce_zero_label=True,
             **kwargs)
