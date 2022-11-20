@@ -1,1 +1,0 @@
-{"val/aAcc": NaN, "val/mIoU": NaN, "val/mAcc": NaN, "val/IoU.lung": NaN, "val/IoU.not lung": NaN, "val/Acc.lung": NaN, "val/Acc.not lung": NaN, "learning_rate": 0.01, "momentum": 0.9, "_timestamp": 1668896057.995293, "_runtime": 227.01459884643555, "_step": 1}

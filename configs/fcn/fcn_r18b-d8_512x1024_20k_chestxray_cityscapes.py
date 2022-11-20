@@ -1,17 +1,9 @@
-_base_ = ['./fcn_r50-d8_512x1024_20k_chestxray.py']
-model = dict(
-#    pretrained='torchvision://resnet18',
-    backbone=dict(type='ResNet', depth=18),
-    decode_head=dict(
-        in_channels=512,
-        channels=128,
-        num_classes=2,
-    ),
-    auxiliary_head=dict(
-        num_classes=2,
-        in_channels=256,
-        channels=64
-    ))
+_base_ = ['./fcn_r50-d8_512x1024_20k_chestxray_cityscapes.py']
+
+
+data = dict(
+    samples_per_gpu=1,
+    workers_per_gpu=1)
 
 #wandb = dict(project="MedImg", entity="eeplater")
 log_config = dict(
