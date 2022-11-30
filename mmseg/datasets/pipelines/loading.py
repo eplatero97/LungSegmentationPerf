@@ -149,6 +149,7 @@ class LoadAnnotations(object):
             gt_semantic_seg[gt_semantic_seg == 254] = 255
         results['gt_semantic_seg'] = gt_semantic_seg
         results['seg_fields'].append('gt_semantic_seg')
+        print(f"results['label_map'] inside LoadAnnotations.__call__: {results['label_map']}")
         return results
 
     def __repr__(self):

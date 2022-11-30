@@ -40,6 +40,7 @@ def parse_args():
         'submit it to the test server')
     parser.add_argument(
         '--eval',
+        default='mIoU',
         type=str,
         nargs='+',
         help='evaluation metrics, which depends on the dataset, e.g., "mIoU"'

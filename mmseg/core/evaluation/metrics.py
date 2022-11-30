@@ -322,6 +322,10 @@ def pre_eval_to_metrics(pre_eval_results,
     total_area_union = sum(pre_eval_results[1])
     total_area_pred_label = sum(pre_eval_results[2])
     total_area_label = sum(pre_eval_results[3])
+    print(f"total_area_intersect: {total_area_intersect}")
+    print(f"total_area_union: {total_area_union}")
+    print(f"total_area_pred_label: {total_area_pred_label}")
+    print(f"total_area_label: {total_area_label}")
 
     ret_metrics = total_area_to_metrics(total_area_intersect, total_area_union,
                                         total_area_pred_label,

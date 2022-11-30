@@ -431,6 +431,9 @@ class CustomDataset(Dataset):
         # test a list of pre_eval_results
         else:
             ret_metrics = pre_eval_to_metrics(results, metric)
+        
+        print(f'ret_metrics: {ret_metrics}')
+        print(f"metric: {metric}")
 
         # Because dataset.CLASSES is required for per-eval.
         if self.CLASSES is None:

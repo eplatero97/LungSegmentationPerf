@@ -57,6 +57,38 @@ class EvalHook(_EvalHook):
         if self.save_best:
             self._save_ckpt(runner, key_score)
 
+    def evaluate(self, runner, results):
+        """Evaluate the results.
+        Args:
+            runner (:obj:`mmcv.Runner`): The underlined training runner.
+            results (list): Output results.
+        """
+        print(f'self.eval_kwargs: {self.eval_kwargs}')
+        eval_res = self.dataloader.dataset.evaluate(
+            results, logger=runner.logger, **self.eval_kwargs)
+
+        for name, val in eval_res.items():
+            runner.log_buffer.output[name] = val
+        runner.log_buffer.ready = True
+
+        if self.save_best is not None:
+            # If the performance of model is pool, the `eval_res` may be an
+            # empty dict and it will raise exception when `self.save_best` is
+            # not None. More details at
+            # https://github.com/open-mmlab/mmdetection/issues/6265.
+            if not eval_res:
+                warnings.warn(
+                    'Since `eval_res` is an empty dict, the behavior to save '
+                    'the best checkpoint will be skipped in this evaluation.')
+                return None
+
+            if self.key_indicator == 'auto':
+                # infer from eval_results
+                self._init_rule(self.rule, list(eval_res.keys())[0])
+            return eval_res[self.key_indicator]
+
+        return None
+
 
 class DistEvalHook(_DistEvalHook):
     """Distributed EvalHook, with efficient test support.
