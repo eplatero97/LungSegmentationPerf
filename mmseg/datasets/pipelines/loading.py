@@ -133,6 +133,8 @@ class LoadAnnotations(object):
         gt_semantic_seg = mmcv.imfrombytes(
             img_bytes, flag='unchanged',
             backend=self.imdecode_backend).squeeze().astype(np.uint8)
+        # hacky solution to get label_map since I do not know how to pass it in for every call to annotations
+        # results['label_map'] = {255: 1} # adding this raises CUDA illegal mem access 
         # modify if custom classes
         if results.get('label_map', None) is not None:
             # Add deep copy to solve bug of repeatedly
@@ -147,9 +149,10 @@ class LoadAnnotations(object):
             gt_semantic_seg[gt_semantic_seg == 0] = 255
             gt_semantic_seg = gt_semantic_seg - 1
             gt_semantic_seg[gt_semantic_seg == 254] = 255
+        # gt_semantic_seg[gt_semantic_seg==255] = 1 # hacky solution
         results['gt_semantic_seg'] = gt_semantic_seg
         results['seg_fields'].append('gt_semantic_seg')
-        print(f"results['label_map'] inside LoadAnnotations.__call__: {results['label_map']}")
+#        print(f"results['label_map'] inside LoadAnnotations.__call__: {results['label_map']}")
         return results
 
     def __repr__(self):

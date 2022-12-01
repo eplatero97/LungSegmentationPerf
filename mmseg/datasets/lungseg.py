@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import os.path as osp
+import warnings
 
 from mmseg.core import eval_metrics, intersect_and_union, pre_eval_to_metrics
 from mmcv.utils import print_log
@@ -30,7 +31,8 @@ class LungSegmentationDataset(CustomDataset):
             reduce_zero_label=False,
 #            gt_seg_map_loader_cfg=dict(imdecode_backend='pillow'),
             **kwargs)
-        self.label_map = {255: 1}
+        # self.label_map = {255: 1}
+        #self.custom_classes = True
 
     def results2img(self, results, imgfile_prefix, to_label_id, indices=None):
         if indices is None:
@@ -71,6 +73,33 @@ class LungSegmentationDataset(CustomDataset):
         result_files = self.results2img(results, imgfile_prefix, to_label_id,
                                         indices)
         return result_files
+
+
+    def get_gt_seg_map_by_idx(self, index):
+        """Get one ground truth segmentation map for evaluation."""
+        ann_info = self.get_ann_info(index)
+        results = dict(ann_info=ann_info)
+        self.pre_pipeline(results)
+        results['label_map'] = {255: 1}
+        self.gt_seg_map_loader(results)
+        return results['gt_semantic_seg']
+
+
+    def get_gt_seg_maps(self, efficient_test=None):
+        """Get ground truth segmentation maps for evaluation."""
+        if efficient_test is not None:
+            warnings.warn(
+                'DeprecationWarning: ``efficient_test`` has been deprecated '
+                'since MMSeg v0.16, the ``get_gt_seg_maps()`` is CPU memory '
+                'friendly by default. ')
+
+        for idx in range(len(self)):
+            ann_info = self.get_ann_info(idx)
+            results = dict(ann_info=ann_info)
+            self.pre_pipeline(results)
+            results['label_map'] = {255: 1}
+            self.gt_seg_map_loader(results)
+            yield results['gt_semantic_seg']
 
     def pre_eval(self, preds, indices):
         """Collect eval result from each iteration.
