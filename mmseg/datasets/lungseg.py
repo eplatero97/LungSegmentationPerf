@@ -31,8 +31,8 @@ class LungSegmentationDataset(CustomDataset):
             reduce_zero_label=False,
 #            gt_seg_map_loader_cfg=dict(imdecode_backend='pillow'),
             **kwargs)
-        # self.label_map = {255: 1}
-        #self.custom_classes = True
+        self.label_map = {255: 1} # this alone does NOT change annotations
+        self.custom_classes = True
 
     def results2img(self, results, imgfile_prefix, to_label_id, indices=None):
         if indices is None:
