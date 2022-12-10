@@ -31,13 +31,13 @@ optimizer_config = dict()
 # learning policy
 lr_config = dict(policy='poly', power=0.9, min_lr=1e-4, by_epoch=False)
 
-#wandb = dict(project="MedImg", entity="eeplater")
+wandb = dict(project="MedImg", entity="eeplater", name='fcn_test')
 log_config = dict(
     interval=1, # interval to print log
     by_epoch=True,
     hooks=[
-        dict(type='TextLoggerHook')
-#        dict(type="WandbLoggerHook", init_kwargs=wandb)
+        dict(type='TextLoggerHook'),
+        dict(type="WandbLoggerHook", init_kwargs=wandb)
     ])
 # runtime settings for validating correct workflow
 runner = dict(type='EpochBasedRunner', max_epochs=1) 
