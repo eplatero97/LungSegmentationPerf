@@ -58,7 +58,7 @@ A summary of our findings is shown on below metrics done on test dataset:
 | Unet        | 94.45%      | 94.82%     | 94.45%      | 94.63%      | 89.93%     |
 | FCN         | 94.86%      | 90.06%     | 94.86%      | 92.02%      | 85.12%     |
 
-A through review of all our findings is found on `ChestXraySegmentationAblationStudy.pdf`.
+A through review of all our findings is found on `ChestXraySegmentationAblationStudy_lightversion.pdf`.
 
 ## Model Visualizations :art:
 Segmentation performance of each model is shown below:
@@ -68,7 +68,7 @@ Segmentation performance of each model is shown below:
 The first row represents the X-ray image of five lungs, second row represents the mask, and the rest are the generations of UNet, SegFormer, DeepLabV3+, PSPNet, and FCN respectively. 
 
 ## Dataset :file_folder:
-To download the dataset, click [here](https://www.kaggle.com/code/nikhilpandey360/lung-segmentation-from-chest-x-ray-dataset/notebook#Lung-segmentation-from-Chest-X-Ray-dataset). Then, you must pre-process the dataset to format it in a way acceptable to mmsegmentation framework and to partition the dataset into training, validation, and testing set:
+To download the dataset, click [perf](https://github.com/eplatero97/LungSegmentationPerf/blob/master/assets/model_perf.png). Then, you must pre-process the dataset to format it in a way acceptable to mmsegmentation framework and to partition the dataset into training, validation, and testing set:
 ```bash
 python ./data_prep.py --inputpath './archive/Lung Segmentation/' --outputpath ./data/lungsementation
 ```
