@@ -83,3 +83,18 @@ The configs to train each of the models is below:
 * `configs/unet/fcn_unet_s5-d16_4x4_512x1024_160k_chestxray.py`
 
 > **NOTE**: you will have to configure each of the config files to your own machine since I had some serious memory limitations on my local computer. 
+
+## Run Experiments :running:
+To run training and validation, run below:
+```bash
+CONFIG_FILE=configs/unet/fcn_unet_s5-d16_4x4_512x1024_160k_chestxray.py
+bash ./tools/dist_train.sh $CONFIG_FILE 1
+```
+
+To run on testing partition, run below:
+```bash
+CHECKPOINT_FILE=checkpoints/latest.pth 
+CONFIG_FILE=configs/unet/fcn_unet_s5-d16_4x4_512x1024_160k_chestxray.py
+python ./tools/test.py $CONFIG_FILE $CHECKPOINT_FILE --eval mIoU mDice mFscore 
+```
+> **NOTE**: use `test.sh` if you want to use distributed testing.
